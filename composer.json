@@ -1,0 +1,42 @@
+{
+    "name": "philiprehberger/php-config-loader",
+    "description": "Load configuration from JSON and PHP files with environment variable substitution",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "config",
+        "configuration",
+        "loader",
+        "json",
+        "php",
+        "environment"
+    ],
+    "authors": [
+        {
+            "name": "Philip Rehberger"
+        }
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "laravel/pint": "^1.0",
+        "phpstan/phpstan": "^1.12|^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhilipRehberger\\ConfigLoader\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhilipRehberger\\ConfigLoader\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}
