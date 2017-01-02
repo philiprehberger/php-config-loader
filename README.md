@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-config-loader.svg)](https://packagist.org/packages/philiprehberger/php-config-loader)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/github/license/philiprehberger/php-config-loader)](LICENSE)
 
 Load configuration from JSON and PHP files with environment variable substitution. Framework-agnostic, zero dependencies.
 
@@ -137,13 +137,15 @@ $merged = $base->merge($local);
 | `Config::all()` | `array` | Get all config data |
 | `Config::merge(Config $other)` | `Config` | Deep merge with another config |
 
-## Testing
+## Development
 
 ```bash
 composer install
 vendor/bin/phpunit
+vendor/bin/pint --test
+vendor/bin/phpstan analyse
 ```
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT
