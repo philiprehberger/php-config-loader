@@ -4,7 +4,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-config-loader.svg)](https://packagist.org/packages/philiprehberger/php-config-loader)
 [![License](https://img.shields.io/github/license/philiprehberger/php-config-loader)](LICENSE)
 
-Load configuration from JSON and PHP files with environment variable substitution. Framework-agnostic, zero dependencies.
+Load configuration from JSON and PHP files with environment variable substitution.
 
 ## Requirements
 
