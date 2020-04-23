@@ -1,8 +1,15 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to `php-config-loader` will be documented in this file.
 
 ## [Unreleased]
+
+## [1.1.0] - 2026-03-22
+
+### Added
+- `merge()` method for combining two config instances with deep merging
+- `flatten()` method for converting nested config to dot-notation key-value pairs
+- `keys()` method for listing top-level configuration keys
 
 ## [1.0.3] - 2026-03-20
 

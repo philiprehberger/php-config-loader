@@ -122,11 +122,52 @@ final class Config
     }
 
     /**
+     * Return all top-level configuration keys.
+     *
+     * @return array<int, string>
+     */
+    public function keys(): array
+    {
+        return array_keys($this->data);
+    }
+
+    /**
      * Deep merge another config into this one. Returns a new Config.
      */
     public function merge(self $other): self
     {
         return new self(self::deepMerge($this->data, $other->data));
+    }
+
+    /**
+     * Flatten nested config into dot-notation key-value pairs.
+     *
+     * @return array<string, mixed>
+     */
+    public function flatten(string $separator = '.'): array
+    {
+        return self::doFlatten($this->data, '', $separator);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private static function doFlatten(array $data, string $prefix, string $separator): array
+    {
+        $result = [];
+
+        foreach ($data as $key => $value) {
+            $fullKey = $prefix === '' ? (string) $key : $prefix.$separator.$key;
+
+            if (is_array($value) && $value !== []) {
+                $result = array_merge($result, self::doFlatten($value, $fullKey, $separator));
+            } else {
+                $result[$fullKey] = $value;
+            }
+        }
+
+        return $result;
     }
 
     /**

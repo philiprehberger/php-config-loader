@@ -247,4 +247,155 @@ final class ConfigLoaderTest extends TestCase
         $this->assertSame('base', $merged->get('app'));
         $this->assertSame('redis', $merged->get('cache'));
     }
+
+    #[Test]
+    public function test_merge_with_overlapping_scalar_keys(): void
+    {
+        $base = new Config(['name' => 'original', 'port' => 3306]);
+        $override = new Config(['name' => 'overridden', 'port' => 5432]);
+
+        $merged = $base->merge($override);
+
+        $this->assertSame('overridden', $merged->get('name'));
+        $this->assertSame(5432, $merged->get('port'));
+    }
+
+    #[Test]
+    public function test_merge_with_non_overlapping_keys(): void
+    {
+        $base = new Config(['alpha' => 1]);
+        $override = new Config(['beta' => 2]);
+
+        $merged = $base->merge($override);
+
+        $this->assertSame(1, $merged->get('alpha'));
+        $this->assertSame(2, $merged->get('beta'));
+    }
+
+    #[Test]
+    public function test_merge_with_nested_configs(): void
+    {
+        $base = new Config([
+            'services' => [
+                'mail' => ['driver' => 'smtp', 'host' => 'mail.example.com'],
+                'queue' => ['driver' => 'sync'],
+            ],
+        ]);
+
+        $override = new Config([
+            'services' => [
+                'mail' => ['host' => 'smtp.production.com', 'port' => 587],
+                'cache' => ['driver' => 'redis'],
+            ],
+        ]);
+
+        $merged = $base->merge($override);
+
+        $this->assertSame('smtp', $merged->get('services.mail.driver'));
+        $this->assertSame('smtp.production.com', $merged->get('services.mail.host'));
+        $this->assertSame(587, $merged->get('services.mail.port'));
+        $this->assertSame('sync', $merged->get('services.queue.driver'));
+        $this->assertSame('redis', $merged->get('services.cache.driver'));
+    }
+
+    #[Test]
+    public function test_merge_returns_new_instance(): void
+    {
+        $base = new Config(['key' => 'base']);
+        $override = new Config(['key' => 'override']);
+
+        $merged = $base->merge($override);
+
+        $this->assertNotSame($base, $merged);
+        $this->assertNotSame($override, $merged);
+        $this->assertSame('base', $base->get('key'));
+        $this->assertSame('override', $override->get('key'));
+        $this->assertSame('override', $merged->get('key'));
+    }
+
+    #[Test]
+    public function test_flatten_simple_nested(): void
+    {
+        $config = new Config([
+            'database' => [
+                'host' => 'localhost',
+                'port' => 3306,
+            ],
+        ]);
+
+        $flat = $config->flatten();
+
+        $this->assertSame([
+            'database.host' => 'localhost',
+            'database.port' => 3306,
+        ], $flat);
+    }
+
+    #[Test]
+    public function test_flatten_deeply_nested_three_plus_levels(): void
+    {
+        $config = new Config([
+            'level1' => [
+                'level2' => [
+                    'level3' => [
+                        'level4' => 'deep_value',
+                        'other' => true,
+                    ],
+                    'sibling' => 42,
+                ],
+            ],
+            'top' => 'flat',
+        ]);
+
+        $flat = $config->flatten();
+
+        $this->assertSame([
+            'level1.level2.level3.level4' => 'deep_value',
+            'level1.level2.level3.other' => true,
+            'level1.level2.sibling' => 42,
+            'top' => 'flat',
+        ], $flat);
+    }
+
+    #[Test]
+    public function test_flatten_with_custom_separator(): void
+    {
+        $config = new Config([
+            'database' => [
+                'host' => 'localhost',
+            ],
+        ]);
+
+        $flat = $config->flatten('/');
+
+        $this->assertSame(['database/host' => 'localhost'], $flat);
+    }
+
+    #[Test]
+    public function test_flatten_empty_config(): void
+    {
+        $config = new Config([]);
+
+        $this->assertSame([], $config->flatten());
+    }
+
+    #[Test]
+    public function test_keys_returns_top_level_keys(): void
+    {
+        $config = new Config([
+            'app' => 'MyApp',
+            'database' => ['host' => 'localhost'],
+            'cache' => 'redis',
+        ]);
+
+        $this->assertSame(['app', 'database', 'cache'], $config->keys());
+    }
+
+    #[Test]
+    public function test_keys_returns_empty_for_empty_config(): void
+    {
+        $config = new Config([]);
+
+        $this->assertSame([], $config->keys());
+    }
 }
