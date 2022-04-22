@@ -1,15 +1,20 @@
 # PHP Config Loader
 
-[![Tests](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-config-loader.svg)](https://packagist.org/packages/philiprehberger/php-config-loader)
+[![CI](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml)
+[![Packagist Version](https://img.shields.io/packagist/v/philiprehberger/php-config-loader)](https://packagist.org/packages/philiprehberger/php-config-loader)
+[![GitHub Release](https://img.shields.io/github/v/release/philiprehberger/php-config-loader)](https://github.com/philiprehberger/php-config-loader/releases)
+[![Last Updated](https://img.shields.io/github/last-commit/philiprehberger/php-config-loader)](https://github.com/philiprehberger/php-config-loader/commits/main)
 [![License](https://img.shields.io/github/license/philiprehberger/php-config-loader)](LICENSE)
+[![Bug Reports](https://img.shields.io/github/issues/philiprehberger/php-config-loader/bug)](https://github.com/philiprehberger/php-config-loader/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+[![Feature Requests](https://img.shields.io/github/issues/philiprehberger/php-config-loader/enhancement)](https://github.com/philiprehberger/php-config-loader/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 [![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
-Load configuration from JSON and PHP files with environment variable substitution.
+Load configuration from JSON, PHP, YAML, and TOML files with environment variable substitution.
 
 ## Requirements
 
 - PHP 8.2+
+- ext-yaml (optional, required for YAML file support)
 
 ## Installation
 
@@ -29,6 +34,12 @@ $config = ConfigLoader::load(__DIR__ . '/config/app.php');
 
 // Load a JSON config file
 $config = ConfigLoader::load(__DIR__ . '/config/database.json');
+
+// Load a YAML config file (requires ext-yaml)
+$config = ConfigLoader::load(__DIR__ . '/config/cache.yaml');
+
+// Load a TOML config file
+$config = ConfigLoader::load(__DIR__ . '/config/services.toml');
 ```
 
 **PHP config file** (`app.php`):
@@ -98,7 +109,7 @@ $config->get('api_key');  // '' (env var not set, no default)
 
 ### Loading a Directory
 
-Load all `.php` and `.json` files from a directory. Each file's basename (without extension) becomes a top-level key.
+Load all `.php`, `.json`, `.yaml`, `.yml`, and `.toml` files from a directory. Each file's basename (without extension) becomes a top-level key.
 
 ```php
 // config/
@@ -138,11 +149,33 @@ $flat = $config->flatten('/');
 // ['database/host' => 'localhost', 'database/port' => 3306]
 ```
 
+### Configuration Validation
+
+Validate config values against a set of rules. Rules are pipe-separated.
+
+```php
+$config = ConfigLoader::load('config/database.json');
+
+$violations = $config->validate([
+    'host' => 'required|string',
+    'port' => 'required|int',
+    'debug' => 'bool',
+]);
+
+if ($violations !== []) {
+    foreach ($violations as $message) {
+        echo $message . PHP_EOL;
+    }
+}
+```
+
+Supported rules: `required`, `string`, `int`, `bool`, `float`.
+
 ## API
 
 | Method | Return Type | Description |
 |---|---|---|
-| `ConfigLoader::load(string $path)` | `Config` | Load a single PHP or JSON config file |
+| `ConfigLoader::load(string $path)` | `Config` | Load a single config file (PHP, JSON, YAML, TOML) |
 | `ConfigLoader::loadDirectory(string $dir)` | `Config` | Load all config files from a directory |
 | `Config::get(string $key, mixed $default = null)` | `mixed` | Get value by dot-notation key |
 | `Config::string(string $key, string $default = '')` | `string` | Get string value |
@@ -155,6 +188,7 @@ $flat = $config->flatten('/');
 | `Config::keys()` | `array` | Get all top-level configuration keys |
 | `Config::merge(Config $other)` | `Config` | Deep merge with another config |
 | `Config::flatten(string $separator = '.')` | `array` | Flatten nested config to dot-notation key-value pairs |
+| `Config::validate(array $rules)` | `array` | Validate config against rules, returns violation messages |
 
 ## Development
 
@@ -162,9 +196,15 @@ $flat = $config->flatten('/');
 composer install
 vendor/bin/phpunit
 vendor/bin/pint --test
-vendor/bin/phpstan analyse
 ```
+
+## Support
+
+If you find this package useful, consider giving it a star on GitHub — it helps motivate continued maintenance and development.
+
+[![LinkedIn](https://img.shields.io/badge/Philip%20Rehberger-LinkedIn-0A66C2?logo=linkedin)](https://www.linkedin.com/in/philiprehberger)
+[![More packages](https://img.shields.io/badge/more-open%20source%20packages-blue)](https://philiprehberger.com/open-source-packages)
 
 ## License
 
-MIT
+[MIT](LICENSE)

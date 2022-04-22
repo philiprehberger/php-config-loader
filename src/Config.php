@@ -140,6 +140,57 @@ final class Config
     }
 
     /**
+     * Validate config data against a set of rules.
+     * Rules are pipe-separated: ['key' => 'required|string'].
+     *
+     * @param  array<string, string>  $rules
+     * @return array<int, string> List of violation messages (empty = valid)
+     */
+    public function validate(array $rules): array
+    {
+        $violations = [];
+
+        foreach ($rules as $key => $ruleString) {
+            $ruleList = explode('|', $ruleString);
+            $value = $this->get($key);
+            $exists = $this->has($key) && $value !== null;
+
+            foreach ($ruleList as $rule) {
+                $rule = trim($rule);
+
+                if ($rule === 'required') {
+                    if (! $exists) {
+                        $violations[] = "'{$key}' is required.";
+
+                        break;
+                    }
+
+                    continue;
+                }
+
+                // Skip type checks if value doesn't exist (only 'required' enforces presence)
+                if (! $exists) {
+                    continue;
+                }
+
+                $violation = match ($rule) {
+                    'string' => is_string($value) ? null : "'{$key}' must be a string.",
+                    'int' => is_int($value) ? null : "'{$key}' must be an integer.",
+                    'bool' => is_bool($value) ? null : "'{$key}' must be a boolean.",
+                    'float' => is_float($value) || is_int($value) ? null : "'{$key}' must be a float.",
+                    default => null,
+                };
+
+                if ($violation !== null) {
+                    $violations[] = $violation;
+                }
+            }
+        }
+
+        return $violations;
+    }
+
+    /**
      * Flatten nested config into dot-notation key-value pairs.
      *
      * @return array<string, mixed>

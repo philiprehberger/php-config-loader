@@ -20,7 +20,7 @@ class ConfigException extends RuntimeException
 
     public static function unsupportedFormat(string $extension): self
     {
-        return new self("Unsupported config format: '{$extension}'. Supported: php, json.");
+        return new self("Unsupported config format: '{$extension}'. Supported: php, json, yaml, yml, toml.");
     }
 
     public static function invalidFormat(string $path, string $reason): self

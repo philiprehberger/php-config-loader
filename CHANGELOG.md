@@ -4,6 +4,13 @@ All notable changes to `php-config-loader` will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-03-27
+
+### Added
+- YAML file support via `YamlParser` (requires ext-yaml)
+- TOML file support via `TomlParser` with pure-PHP parsing
+- `Config::validate()` for rule-based configuration validation
+
 ## [1.1.0] - 2026-03-22
 
 ### Added
