@@ -48,9 +48,12 @@ final class TomlParser
                 $segments = explode('.', $matches[1]);
 
                 foreach ($segments as $segment) {
-                    if (! isset($currentSection[$segment]) || ! is_array($currentSection[$segment])) {
+                    $existing = $currentSection[$segment] ?? null;
+
+                    if (! is_array($existing)) {
                         $currentSection[$segment] = [];
                     }
+
                     $currentSection = &$currentSection[$segment];
                 }
 
