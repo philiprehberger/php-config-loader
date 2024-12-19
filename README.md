@@ -1,13 +1,8 @@
 # PHP Config Loader
 
-[![CI](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml)
-[![Packagist Version](https://img.shields.io/packagist/v/philiprehberger/php-config-loader)](https://packagist.org/packages/philiprehberger/php-config-loader)
-[![GitHub Release](https://img.shields.io/github/v/release/philiprehberger/php-config-loader)](https://github.com/philiprehberger/php-config-loader/releases)
-[![Last Updated](https://img.shields.io/github/last-commit/philiprehberger/php-config-loader)](https://github.com/philiprehberger/php-config-loader/commits/main)
-[![License](https://img.shields.io/github/license/philiprehberger/php-config-loader)](LICENSE)
-[![Bug Reports](https://img.shields.io/github/issues/philiprehberger/php-config-loader/bug)](https://github.com/philiprehberger/php-config-loader/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
-[![Feature Requests](https://img.shields.io/github/issues/philiprehberger/php-config-loader/enhancement)](https://github.com/philiprehberger/php-config-loader/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
-[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
+[![Tests](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-config-loader/actions/workflows/tests.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-config-loader.svg)](https://packagist.org/packages/philiprehberger/php-config-loader)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/php-config-loader)](https://github.com/philiprehberger/php-config-loader/commits/main)
 
 Load configuration from JSON, PHP, YAML, and TOML files with environment variable substitution.
 
@@ -200,10 +195,21 @@ vendor/bin/pint --test
 
 ## Support
 
-If you find this package useful, consider giving it a star on GitHub — it helps motivate continued maintenance and development.
+If you find this project useful:
 
-[![LinkedIn](https://img.shields.io/badge/Philip%20Rehberger-LinkedIn-0A66C2?logo=linkedin)](https://www.linkedin.com/in/philiprehberger)
-[![More packages](https://img.shields.io/badge/more-open%20source%20packages-blue)](https://philiprehberger.com/open-source-packages)
+⭐ [Star the repo](https://github.com/philiprehberger/php-config-loader)
+
+🐛 [Report issues](https://github.com/philiprehberger/php-config-loader/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+💡 [Suggest features](https://github.com/philiprehberger/php-config-loader/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+
+❤️ [Sponsor development](https://github.com/sponsors/philiprehberger)
+
+🌐 [All Open Source Projects](https://philiprehberger.com/open-source-packages)
+
+💻 [GitHub Profile](https://github.com/philiprehberger)
+
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/philiprehberger)
 
 ## License
 
