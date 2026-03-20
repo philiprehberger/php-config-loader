@@ -8,7 +8,7 @@ Load configuration from JSON and PHP files with environment variable substitutio
 
 ## Requirements
 
-- PHP ^8.2
+- PHP 8.2+
 
 ## Installation
 
