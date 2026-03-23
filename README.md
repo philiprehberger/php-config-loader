@@ -121,6 +121,22 @@ $local = ConfigLoader::load('config/local.php');
 $merged = $base->merge($local);
 ```
 
+### Flattening Nested Config
+
+Convert nested configuration into a flat associative array with dot-notation keys.
+
+```php
+$config = ConfigLoader::load('config/database.php');
+// ['database' => ['host' => 'localhost', 'port' => 3306]]
+
+$flat = $config->flatten();
+// ['database.host' => 'localhost', 'database.port' => 3306]
+
+// Use a custom separator
+$flat = $config->flatten('/');
+// ['database/host' => 'localhost', 'database/port' => 3306]
+```
+
 ## API
 
 | Method | Return Type | Description |
@@ -135,7 +151,9 @@ $merged = $base->merge($local);
 | `Config::array(string $key, array $default = [])` | `array` | Get array value |
 | `Config::has(string $key)` | `bool` | Check if key exists |
 | `Config::all()` | `array` | Get all config data |
+| `Config::keys()` | `array` | Get all top-level configuration keys |
 | `Config::merge(Config $other)` | `Config` | Deep merge with another config |
+| `Config::flatten(string $separator = '.')` | `array` | Flatten nested config to dot-notation key-value pairs |
 
 ## Development
 
