@@ -40,7 +40,7 @@ final class ConfigExceptionTest extends TestCase
     {
         $exception = ConfigException::unsupportedFormat('yaml');
 
-        $this->assertSame("Unsupported config format: 'yaml'. Supported: php, json.", $exception->getMessage());
+        $this->assertSame("Unsupported config format: 'yaml'. Supported: php, json, yaml, yml, toml.", $exception->getMessage());
     }
 
     #[Test]
@@ -74,7 +74,7 @@ final class ConfigExceptionTest extends TestCase
     {
         $exception = ConfigException::unsupportedFormat('');
 
-        $this->assertSame("Unsupported config format: ''. Supported: php, json.", $exception->getMessage());
+        $this->assertSame("Unsupported config format: ''. Supported: php, json, yaml, yml, toml.", $exception->getMessage());
     }
 
     #[Test]

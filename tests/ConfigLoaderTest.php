@@ -78,11 +78,11 @@ final class ConfigLoaderTest extends TestCase
     #[Test]
     public function test_unsupported_format_throws(): void
     {
-        $file = $this->tmpDir.'/config.yaml';
-        file_put_contents($file, 'key: value');
+        $file = $this->tmpDir.'/config.xml';
+        file_put_contents($file, '<config><key>value</key></config>');
 
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage("Unsupported config format: 'yaml'");
+        $this->expectExceptionMessage("Unsupported config format: 'xml'");
 
         ConfigLoader::load($file);
     }

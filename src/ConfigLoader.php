@@ -7,6 +7,8 @@ namespace PhilipRehberger\ConfigLoader;
 use PhilipRehberger\ConfigLoader\Exceptions\ConfigException;
 use PhilipRehberger\ConfigLoader\Parsers\JsonParser;
 use PhilipRehberger\ConfigLoader\Parsers\PhpParser;
+use PhilipRehberger\ConfigLoader\Parsers\TomlParser;
+use PhilipRehberger\ConfigLoader\Parsers\YamlParser;
 
 final class ConfigLoader
 {
@@ -25,6 +27,8 @@ final class ConfigLoader
         $data = match ($extension) {
             'php' => PhpParser::parse($path),
             'json' => JsonParser::parse($path),
+            'yaml', 'yml' => YamlParser::parse($path),
+            'toml' => TomlParser::parse($path),
             default => throw ConfigException::unsupportedFormat($extension),
         };
 
@@ -44,7 +48,7 @@ final class ConfigLoader
         }
 
         $merged = [];
-        $files = glob($dir.'/*.{php,json}', GLOB_BRACE);
+        $files = glob($dir.'/*.{php,json,yaml,yml,toml}', GLOB_BRACE);
 
         if ($files === false) {
             return new Config([]);
